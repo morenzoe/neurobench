@@ -241,8 +241,17 @@ class PrimateReaching(NeuroBenchDataset):
 
                 # histogram is assigns spikes to lower bound of binning window, therefor increment by one to shift to
                 # upper bound
-                idx = np.nonzero(bins)[0] + 1
-                spike_train[row_idx, col_idx, idx] = 1
+                    
+
+                ### custom ###
+                # idx = np.nonzero(bins)[0] + 1
+                # spike_train[row_idx, col_idx, idx] = 1
+
+                temp = np.int64(np.array([0]))
+                temp = np.concatenate(temp, bins)
+
+                spike_train[row_idx, col_idx, :] = temp
+                ### custom ###
 
         if self.spike_sorting:
             # if using spike sorting, reshape # channels x # units into a single dimension => # features
@@ -253,7 +262,12 @@ class PrimateReaching(NeuroBenchDataset):
             spike_train = spike_train.transpose()
         else:
             # combine units into channels
-            spike_train = np.bitwise_or.reduce(spike_train, axis=0)
+
+            ### custom ###
+            # spike_train = np.bitwise_or.reduce(spike_train, axis=0)
+
+            spike_train = np.sum(spike_train, axis=0)
+            ### custom ###
 
         # use convolution to compute binning window
         if self.ratio != 1:
