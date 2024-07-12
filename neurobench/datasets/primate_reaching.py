@@ -248,7 +248,7 @@ class PrimateReaching(NeuroBenchDataset):
                 # spike_train[row_idx, col_idx, idx] = 1
 
                 temp = np.int64(np.array([0]))
-                temp = np.concatenate(temp, bins)
+                temp = np.concatenate((temp, bins))
 
                 spike_train[row_idx, col_idx, :] = temp
                 ### custom ###
